@@ -1,0 +1,1321 @@
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Birdy-fam | Digital Menu</title>
+
+    <style>
+        :root {
+            --red: #ff5b61;
+            --red-dark: #e9444b;
+            --gold: #f6a928;
+            --cream: #fff8ed;
+            --dark: #171717;
+            --dark2: #242424;
+            --gray: #777;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* =========================
+           RANDOM BACKGROUND IMAGES
+        ========================= */
+
+        .random-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .random-bg-img {
+            position: absolute;
+            object-fit: cover;
+            border-radius: 28px;
+            opacity: 0.08;
+            filter: saturate(1.15);
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        header,
+        .categories,
+        main,
+        footer {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: var(--red);
+            color: white;
+            text-align: center;
+            padding: 30px 20px 28px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            width: 115px;
+            height: 115px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid white;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            margin-bottom: 12px;
+        }
+
+        header h1 {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .halal {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 7px 18px;
+            border-radius: 30px;
+            background: white;
+            color: var(--red-dark);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* =========================
+           CATEGORY BAR
+        ========================= */
+
+        .categories {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+
+            padding: 12px 10px;
+
+            background: rgba(255, 248, 237, 0.96);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            flex-shrink: 0;
+
+            border: none;
+            background: white;
+            color: var(--dark);
+
+            padding: 10px 15px;
+
+            border-radius: 25px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+            transition: 0.25s;
+        }
+
+        .category:hover {
+            transform: translateY(-2px);
+        }
+
+        .category.active {
+            background: var(--red);
+            color: white;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            max-width: 950px;
+            margin: auto;
+            padding: 30px 15px 50px;
+        }
+
+        .menu-section {
+            margin-bottom: 45px;
+            scroll-margin-top: 75px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            margin-bottom: 20px;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 8px;
+            height: 35px;
+            border-radius: 10px;
+            background: var(--red);
+        }
+
+        .section-title h2 {
+            font-size: 27px;
+            font-weight: 900;
+        }
+
+        /* =========================
+           MENU CARDS
+        ========================= */
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .menu-card {
+            position: relative;
+
+            background: rgba(255, 255, 255, 0.93);
+
+            border-radius: 22px;
+            padding: 18px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+
+            border: 1px solid rgba(0, 0, 0, 0.04);
+
+            overflow: hidden;
+
+            transition: 0.25s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.11);
+        }
+
+        .menu-card::after {
+            content: "";
+            position: absolute;
+
+            width: 70px;
+            height: 70px;
+
+            right: -25px;
+            top: -25px;
+
+            background: var(--gold);
+
+            opacity: 0.13;
+
+            border-radius: 50%;
+        }
+
+        .item-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .price {
+            flex-shrink: 0;
+
+            background: var(--gold);
+            color: white;
+
+            padding: 6px 10px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+            font-weight: 900;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .description {
+            position: relative;
+            z-index: 2;
+
+            color: var(--gray);
+
+            font-size: 13px;
+            line-height: 1.55;
+
+            margin-top: 10px;
+        }
+
+        /* =========================
+           OWNER IMAGE
+        ========================= */
+
+        .owner-card {
+            margin: 35px 0;
+
+            background: var(--dark);
+
+            border-radius: 28px;
+
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 18px;
+
+            color: white;
+
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .owner-card img {
+            width: 90px;
+            height: 90px;
+
+            object-fit: cover;
+
+            border-radius: 20px;
+
+            border: 3px solid var(--gold);
+        }
+
+        .owner-card h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .owner-card p {
+            color: #ddd;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: var(--dark);
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px;
+
+            border-top-left-radius: 35px;
+            border-top-right-radius: 35px;
+        }
+
+        footer img {
+            width: 90px;
+            height: 90px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            border: 4px solid var(--gold);
+
+            margin-bottom: 12px;
+        }
+
+        footer h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .thank-you {
+            color: #ddd;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .mini-chico {
+            color: var(--gold);
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding-top: 25px;
+            }
+
+            header h1 {
+                font-size: 32px;
+            }
+
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            main {
+                padding: 25px 12px 40px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 24px;
+            }
+
+            .menu-card {
+                padding: 17px;
+            }
+
+            .item-name {
+                font-size: 17px;
+            }
+
+            .owner-card {
+                padding: 16px;
+            }
+
+            .owner-card img {
+                width: 75px;
+                height: 75px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- RANDOM IMG46 BACKGROUND -->
+    <div class="random-background" id="randomBackground"></div>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <img
+            src="./image/img44.jpg"
+            alt="Birdy-fam Logo"
+            class="logo"
+        >
+
+        <h1>Birdy-fam</h1>
+
+        <p>Chicken • Burgers • Wraps • Sliders</p>
+
+        <div class="halal">
+            HALAL
+        </div>
+
+    </header>
+
+    <!-- CATEGORY NAVIGATION -->
+
+    <div class="categories">
+
+        <button class="category active" onclick="goTo('appetizers', this)">
+            Appetizers
+        </button>
+
+        <button class="category" onclick="goTo('wraps', this)">
+            Wraps
+        </button>
+
+        <button class="category" onclick="goTo('platters', this)">
+            Platters
+        </button>
+
+        <button class="category" onclick="goTo('burger', this)">
+            Burger
+        </button>
+
+        <button class="category" onclick="goTo('sliders', this)">
+            Sliders
+        </button>
+
+        <button class="category" onclick="goTo('desserts', this)">
+            Desserts
+        </button>
+
+        <button class="category" onclick="goTo('addon', this)">
+            Add On
+        </button>
+
+    </div>
+
+    <main>
+
+        <!-- APPETIZERS -->
+
+        <section class="menu-section" id="appetizers">
+
+            <div class="section-title">
+                <h2>APPETIZERS</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Mozzarella Sticks
+                        </div>
+
+                        <div class="price">
+                            $6.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Three thick sticks of melted mozzarella wrapped
+                        in our crunchy chips crust, served with a side
+                        of our spicy mayo magic.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Corn Ribs
+                        </div>
+
+                        <div class="price">
+                            $5.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Golden crispy corn ribs seasoned to perfection,
+                        served with our house sauce.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Fries
+                        </div>
+
+                        <div class="price">
+                            $4.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Wedges
+                        </div>
+
+                        <div class="price">
+                            $4.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Curly Fries
+                        </div>
+
+                        <div class="price">
+                            $6.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Road Kill Fries
+                        </div>
+
+                        <div class="price">
+                            $8.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Piled high with our signature crispy chicken,
+                        cut into bite sized pieces, drizzled generously
+                        with creamy cheddar sauce and our legendary
+                        Chico sauce.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- OWNER IMAGE -->
+
+        <div class="owner-card">
+
+            <img
+                src="./image/img45.jpg"
+                alt="Birdy-fam"
+            >
+
+            <div>
+
+                <h3>Birdy-fam</h3>
+
+                <p>
+                    Fresh, crispy and made with love.
+                    Enjoy every bite!
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- WRAPS -->
+
+        <section class="menu-section" id="wraps">
+
+            <div class="section-title">
+                <h2>WRAPS</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            BBQ Chicken Wrap
+                        </div>
+
+                        <div class="price">
+                            $7.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Crispy fried chicken breast strips dipped in
+                        BBQ sauce, coated in our signature chips crust,
+                        wrapped with fresh iceberg, pickles, and chip
+                        sticks, and ranch inside.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Honey Mustard Chicken Wrap
+                        </div>
+
+                        <div class="price">
+                            $7.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Crispy fried chicken breast strips dipped in
+                        honey mustard, coated in our signature chips
+                        crust, wrapped with fresh iceberg, pickles,
+                        and chip sticks, with ranch inside.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PLATTERS -->
+
+        <section class="menu-section" id="platters">
+
+            <div class="section-title">
+                <h2>PLATTERS</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            2 Pieces Chicken Strips
+                        </div>
+
+                        <div class="price">
+                            $7.50
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        2 Big crispy, juicy, and full of flavor,
+                        our signature chip-crusted chicken strips
+                        served with two fluffy brioche buns and a
+                        side of our legendary Chico sauce.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            3 Pieces Chicken Strips
+                        </div>
+
+                        <div class="price">
+                            $10.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        3 Big crispy, juicy, and full of flavor,
+                        our signature chip-crusted chicken strips
+                        served with two fluffy brioche buns and a
+                        side of our legendary Chico sauce.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- KIDS MEAL -->
+
+        <section class="menu-section" id="kids">
+
+            <div class="section-title">
+                <h2>KDS MEAL</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Kids Meal
+                        </div>
+
+                        <div class="price">
+                            $12.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            L
+                        </div>
+
+                        <div class="price">
+                            $3.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- BURGER -->
+
+        <section class="menu-section" id="burger">
+
+            <div class="section-title">
+                <h2>BURGER</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Chicken Fillet Burger
+                        </div>
+
+                        <div class="price">
+                            $6.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Crispy chicken fillet stacked with garlic sauce,
+                        coleslaw, and pickles, all tucked in a soft bun.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Mozzarella Chicken Burger
+                        </div>
+
+                        <div class="price">
+                            $8.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Crispy chicken fillet stacked with garlic sauce,
+                        coleslaw, pickles and 1 Mozzarella patty all
+                        tucked in a soft bun.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Flamed Chick
+                        </div>
+
+                        <div class="price">
+                            $7.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        A hearty burger built around a juicy 180g chicken
+                        fillet, topped with a torched cheddar slice for
+                        a rich, cheesy finish. Crisp cabbage, tangy
+                        pickles, and creamy ranch sauce come together
+                        to create the perfect balance of freshness,
+                        crunch, and flavor in every bite.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Cheddar Crunch
+                        </div>
+
+                        <div class="price">
+                            $8.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Built for serious cravings, the Cheddar Crunch
+                        features a juicy 180g chicken fillet coated in
+                        BBQ sauce, topped with a savory cheddar patty,
+                        fresh lettuce, tangy pickles, and crispy sticks.
+                        Finished with our creamy Parmesan garlic mayo
+                        sauce, it delivers the perfect combination of
+                        flavor, texture, and satisfaction in every bite.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECOND OWNER IMAGE -->
+
+        <div class="owner-card">
+
+            <img
+                src="./image/img45.jpg"
+                alt="Birdy-fam"
+            >
+
+            <div>
+
+                <h3>Made Fresh</h3>
+
+                <p>
+                    Crispy chicken, fresh ingredients and
+                    delicious sauces.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- SLIDERS -->
+
+        <section class="menu-section" id="sliders">
+
+            <div class="section-title">
+                <h2>SLIDERS</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            BBQ Chicken Sliders
+                        </div>
+
+                        <div class="price">
+                            $9.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        3 soft, fluffy brioche sliders filled with
+                        shredded BBQ chicken, drizzled with BBQ sauce,
+                        served with pickles and ranch sauce.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Honey Chipotle Sliders
+                        </div>
+
+                        <div class="price">
+                            $9.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        3 soft, fluffy brioche sliders filled with
+                        shredded chicken tossed in sweet and smoky
+                        honey chipotle sauce, topped with pickles
+                        and ranch sauce.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DESSERTS -->
+
+        <section class="menu-section" id="desserts">
+
+            <div class="section-title">
+                <h2>DESSERTS</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Brookie
+                        </div>
+
+                        <div class="price">
+                            $5.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Half brownie, half cookie, 100% trouble.
+                        Fudgy chocolate meets chewy cookie dough
+                        for the ultimate sweet fix after your
+                        crispy feast.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Choco Bomb Crunch
+                        </div>
+
+                        <div class="price">
+                            $8.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Vanilla ice cream drumstick with a
+                        chocolate-caramel core, rolled in crispy
+                        crunch and drizzled with caramel and chocolate.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Birdy Sundae
+                        </div>
+
+                        <div class="price">
+                            $4.00
+                        </div>
+
+                    </div>
+
+                    <p class="description">
+                        Creamy vanilla soft serve ice cream blended
+                        with crunchy sugar-coated cornflakes, topped
+                        with your choice of caramel or chocolate sauce.
+                    </p>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            Birdy Cone
+                        </div>
+
+                        <div class="price">
+                            $1.50
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ADD ON -->
+
+        <section class="menu-section" id="addon">
+
+            <div class="section-title">
+                <h2>ADD ON</h2>
+            </div>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            1 Cup Sauce
+                        </div>
+
+                        <div class="price">
+                            $1.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            1 Big Cup Sauce
+                        </div>
+
+                        <div class="price">
+                            $5.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            1 Cup Coleslaw
+                        </div>
+
+                        <div class="price">
+                            $1.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-card">
+
+                    <div class="item-top">
+
+                        <div class="item-name">
+                            1 Brioche
+                        </div>
+
+                        <div class="price">
+                            $1.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <img
+            src="./image/img44.jpg"
+            alt="Birdy-fam Logo"
+        >
+
+        <h2>Birdy-fam</h2>
+
+        <p class="thank-you">
+            Thank you for choosing Birdy-fam ❤️
+        </p>
+
+        <p class="mini-chico">
+            Don’t forget to take your Mini Chico with you! 🐥🐥🐥🐥🐥🐥
+        </p>
+
+    </footer>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function goTo(id, button) {
+
+            const section = document.getElementById(id);
+
+            if (section) {
+
+                section.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+            document
+                .querySelectorAll(".category")
+                .forEach(btn => {
+
+                    btn.classList.remove("active");
+
+                });
+
+            button.classList.add("active");
+        }
+
+
+        function createRandomBackground() {
+
+            const container =
+                document.getElementById("randomBackground");
+
+            const imageCount = 28;
+
+            const pageHeight =
+                Math.max(
+                    document.body.scrollHeight,
+                    window.innerHeight
+                );
+
+            for (
+                let i = 0;
+                i < imageCount;
+                i++
+            ) {
+
+                const img =
+                    document.createElement("img");
+
+                img.src =
+                    "./image/img46.jpg";
+
+                img.className =
+                    "random-bg-img";
+
+                const size =
+                    Math.floor(
+                        Math.random() * 170
+                    ) + 80;
+
+                const x =
+                    Math.random() * 100;
+
+                const y =
+                    Math.random() * pageHeight;
+
+                const rotation =
+                    Math.floor(
+                        Math.random() * 100
+                    ) - 50;
+
+                const opacity =
+                    (Math.random() * 0.07) + 0.04;
+
+                img.style.width =
+                    size + "px";
+
+                img.style.height =
+                    size + "px";
+
+                img.style.left =
+                    x + "%";
+
+                img.style.top =
+                    y + "px";
+
+                img.style.transform =
+                    `rotate(${rotation}deg)`;
+
+                img.style.opacity =
+                    opacity;
+
+                container.appendChild(img);
+
+            }
+
+        }
+
+        createRandomBackground();
+
+    </script>
+
+</body>
+
+</html>
+```
